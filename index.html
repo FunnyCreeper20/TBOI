@@ -7,7 +7,22 @@
 </head>
 
 <body>
-<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+<script src="https://unpkg.com/@ruffle-rs/ruffle">
+	document.addEventListener('keydown', function(event) {
+    if (event.key === 'w' || event.key === 'W') {
+        event.preventDefault();
+    }
+	if (event.key === 's' || event.key === 'S') {
+        event.preventDefault();
+    }
+	if (event.key === 'a' || event.key === 'A') {
+        event.preventDefault();
+    }
+	if (event.key === 'd' || event.key === 'D') {
+        event.preventDefault();
+    }
+});
+</script>
     <div id="gameParent" style="text-align: center;">
         <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" id="https://trapjawws.github.io/josh/The%20Binding%20of%20Isaac.swf" width="1000" height="572">
             <param name="movie" value="https://trapjawws.github.io/josh/The%20Binding%20of%20Isaac.swf">
