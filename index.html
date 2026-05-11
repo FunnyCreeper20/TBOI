@@ -4,25 +4,102 @@
 	<link rel="stylesheet" type="text/css" href="https://tboi.com/assets/main.css">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<style>
+	    #gameParent {
+	        display: flex;
+	        flex-direction: column;
+	        align-items: center;
+	        justify-content: center;
+	        width: 100%;
+	    }
+	
+	    /* Mobile Controls Styling */
+	    .mobile-controls {
+	        display: none; /* Hidden by default on desktop */
+	        grid-template-columns: repeat(3, 60px);
+	        gap: 10px;
+	        margin-top: 20px;
+	    }
+	
+	    /* Only show controls on touch devices */
+	    @media (pointer: coarse) {
+	        .mobile-controls { display: grid; }
+	    }
+	
+	    .ctrl-btn {
+	        width: 60px;
+	        height: 60px;
+	        background: rgba(255, 255, 255, 0.2);
+	        border: 2px solid #fff;
+	        color: white;
+	        border-radius: 10px;
+	        font-weight: bold;
+	        user-select: none;
+	        -webkit-user-select: none;
+	        touch-action: manipulation;
+	    }
+	</style>
+	
+	<div id="gameParent">
+	    <div id="ruffle-container"></div> <div class="mobile-controls">
+	        <div></div><button class="ctrl-btn" id="btn-w">W</button><div></div>
+	        <button class="ctrl-btn" id="btn-a">A</button>
+	        <button class="ctrl-btn" id="btn-s">S</button>
+	        <button class="ctrl-btn" id="btn-d">D</button>
+	    </div>
+	</div>
+	
+	<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+	<script>
+	    // 1. Initialize Ruffle
+	    const ruffle = window.RufflePlayer.newest();
+	    const player = ruffle.createPlayer();
+	    const container = document.getElementById("ruffle-container");
+	    container.appendChild(player);
+	    player.load("https://trapjawws.github.io/josh/The%20Binding%20of%20Isaac.swf");
+	    player.style.width = "1000px";
+	    player.style.height = "572px";
+	
+	    // 2. Function to simulate key presses for Ruffle
+	    function simulateKey(keyCode, keyChar, type) {
+	        const event = new KeyboardEvent(type, {
+	            key: keyChar,
+	            code: `Key${keyChar.toUpperCase()}`,
+	            keyCode: keyCode,
+	            which: keyCode,
+	            bubbles: true
+	        });
+	        window.dispatchEvent(event);
+	    }
+	
+	    // 3. Map buttons to keys
+	    const buttonMap = {
+	        'btn-w': { code: 87, char: 'w' },
+	        'btn-a': { code: 65, char: 'a' },
+	        'btn-s': { code: 83, char: 's' },
+	        'btn-d': { code: 68, char: 'd' }
+	    };
+	
+	    Object.keys(buttonMap).forEach(id => {
+	        const btn = document.getElementById(id);
+	        const data = buttonMap[id];
+	
+	        // Handle Touch Start
+	        btn.addEventListener('touchstart', (e) => {
+	            e.preventDefault();
+	            simulateKey(data.code, data.char, 'keydown');
+	        });
+	
+	        // Handle Touch End
+	        btn.addEventListener('touchend', (e) => {
+	            e.preventDefault();
+	            simulateKey(data.code, data.char, 'keyup');
+	        });
+	    });
+	</script>
 </head>
 
 <body>
-<script src="https://unpkg.com/@ruffle-rs/ruffle">
-	document.addEventListener('keydown', function(event) {
-    if (event.key === 'w' || event.key === 'W') {
-        event.preventDefault();
-    }
-	if (event.key === 's' || event.key === 'S') {
-        event.preventDefault();
-    }
-	if (event.key === 'a' || event.key === 'A') {
-        event.preventDefault();
-    }
-	if (event.key === 'd' || event.key === 'D') {
-        event.preventDefault();
-    }
-});
-</script>
     <div id="gameParent" style="text-align: center;">
         <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" id="https://trapjawws.github.io/josh/The%20Binding%20of%20Isaac.swf" width="1000" height="572">
             <param name="movie" value="https://trapjawws.github.io/josh/The%20Binding%20of%20Isaac.swf">
