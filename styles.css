@@ -10,6 +10,10 @@
   --tboi-shadow: rgba(0, 0, 0, 0.4);
 }
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   background:
     radial-gradient(circle at top, rgba(80, 80, 80, 0.16), transparent 360px),
@@ -162,7 +166,8 @@ html {
 
 .item-search {
   display: flex;
-  width: min(1000px, 100%);
+  width: 100%;
+  max-width: 1000px;
   margin: 0 auto 24px;
   background: var(--tboi-charcoal);
   border: 1px solid var(--tboi-taupe);
@@ -187,6 +192,7 @@ html {
 .item-search form {
   width: 100%;
   display: flex;
+  align-items: stretch;
   margin: 0;
   padding: 0;
   gap: 0;
@@ -194,8 +200,10 @@ html {
 
 .search-sort-wrapper {
   position: relative;
-  display: inline-block;
-  min-width: 160px;
+  display: inline-flex;
+  width: 180px;
+  min-width: 140px;
+  max-width: 220px;
 }
 
 .search-sort-wrapper::after {
@@ -274,6 +282,7 @@ html {
 .search-input {
   box-sizing: border-box;
   width: 100%;
+  min-width: 0;
   min-height: 50px;
   border: 0;
   padding: 0 14px;
@@ -477,6 +486,53 @@ html {
   color: #80e329;
 }
 
+@media only screen and (max-width: 900px) {
+  .item-search {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .search-sort-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .search-sort {
+    width: 100%;
+    padding-right: 12px;
+    min-height: 48px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  .ruffle-save-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mode-selector {
+    flex-wrap: wrap;
+  }
+
+  .mode-option {
+    flex: 1 1 100%;
+    border-right: 0;
+    border-bottom: 1px solid var(--tboi-taupe);
+  }
+
+  .mode-option:last-child {
+    border-bottom: 0;
+  }
+
+  .main {
+    width: auto;
+    margin: 0 10px;
+    padding: 38px 20px 44px;
+  }
+}
+
 @media only screen and (max-width: 700px) {
   #gameParent {
     padding: 12px 10px 0;
@@ -501,19 +557,6 @@ html {
     top: 16px;
     right: 18px;
     transform: scale(1.15);
-  }
-
-  .mode-selector {
-    flex-direction: column;
-  }
-
-  .mode-option {
-    border-right: 0;
-    border-bottom: 1px solid var(--tboi-taupe);
-  }
-
-  .mode-option:last-child {
-    border-bottom: 0;
   }
 
   .main {
