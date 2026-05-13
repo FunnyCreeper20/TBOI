@@ -388,7 +388,21 @@ html {
   border-bottom-color: rgba(242, 236, 222, 0.22);
 }
 
+.main > div {
+  border-bottom-color: rgba(242, 236, 222, 0.22);
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.main > .items-container,
+.main > .trinkets-container,
+.main > .tarot-container {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
 .main > div h2 {
+  margin: 0 0 0.8rem;
   color: var(--tboi-cream);
   text-shadow: 0 2px 2px #000;
 }
