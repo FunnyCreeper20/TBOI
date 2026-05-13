@@ -91,7 +91,7 @@ html {
 #gameParent {
   box-sizing: border-box;
   min-height: 100vh;
-  padding: 24px 18px 0;
+  padding: clamp(14px, 2vw, 24px) clamp(12px, 3vw, 18px) 0;
   background:
     linear-gradient(180deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.22) 360px),
     #151515 !important;
@@ -100,14 +100,16 @@ html {
 .game-frame {
   box-sizing: border-box;
   position: relative;
-  width: min(90vw, calc(90vh * 470 / 270));
+  width: min(100%, 90vw, calc(90vh * 470 / 270));
+  max-width: 100%;
+  max-height: min(100vh, calc(100vw * 270 / 470));
   aspect-ratio: 470 / 270;
   margin: 0 auto 18px;
-  padding: clamp(8px, 1.4vw, 18px);
+  padding: clamp(6px, 1.4vw, 18px);
   background:
     linear-gradient(145deg, #303030, #121212 58%, #060606),
     #111;
-  border: 8px solid var(--tboi-charcoal);
+  border: clamp(4px, 0.9vw, 10px) solid var(--tboi-charcoal);
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.72),
     inset 0 0 0 2px #090909;
