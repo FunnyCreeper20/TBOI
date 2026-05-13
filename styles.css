@@ -169,6 +169,17 @@ html {
   box-shadow: 1px 3px 4px 0 var(--tboi-shadow);
 }
 
+.item-search[hidden],
+.items-container[hidden],
+.trinkets-container[hidden],
+.tarot-container[hidden],
+.item-search.hidden,
+.items-container.hidden,
+.trinkets-container.hidden,
+.tarot-container.hidden {
+  display: none !important;
+}
+
 .item-search[hidden] {
   display: none;
 }
@@ -345,6 +356,10 @@ html {
 .item-tooltip p {
   font-size: 14px;
   margin: 8px 0;
+}
+
+.item-tooltip .tags {
+  display: none;
 }
 
 .item-tooltip .item-title {
