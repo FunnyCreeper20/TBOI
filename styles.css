@@ -163,7 +163,7 @@ html {
 .item-search {
   display: flex;
   width: min(1000px, 100%);
-  margin: -12px auto 24px;
+  margin: 0 auto 24px;
   background: var(--tboi-charcoal);
   border: 1px solid var(--tboi-taupe);
   box-shadow: 1px 3px 4px 0 var(--tboi-shadow);
@@ -186,7 +186,90 @@ html {
 
 .item-search form {
   width: 100%;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  gap: 0;
 }
+
+.search-sort-wrapper {
+  position: relative;
+  display: inline-block;
+  min-width: 160px;
+}
+
+.search-sort-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  width: 10px;
+  height: 7px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M0 0l5 7 5-7z' fill='%23f2ecde'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.search-sort {
+  box-sizing: border-box;
+  width: 100%;
+  height: 50px;
+  padding: 0 48px 0 12px;
+  border: 0;
+  background: var(--tboi-charcoal);
+  color: var(--tboi-cream);
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.search-sort:hover {
+  background: var(--tboi-taupe);
+  color: #fff;
+}
+
+.search-sort:focus,
+.search-sort:active,
+.search-sort:focus-visible {
+  background: var(--tboi-charcoal);
+  color: var(--tboi-cream);
+  outline: none;
+  box-shadow: none !important;
+}
+
+.search-sort::-ms-expand {
+  display: none;
+}
+
+.search-sort::-webkit-focus-ring-color {
+  color: transparent;
+}
+
+.search-sort::-moz-focus-inner {
+  border: 0;
+}
+
+.search-sort option {
+  background: var(--tboi-charcoal);
+  color: var(--tboi-cream);
+  user-select: none;
+}
+
+.search-sort {
+  -webkit-tap-highlight-color: transparent;
+}
+
 
 .search-input {
   box-sizing: border-box;
