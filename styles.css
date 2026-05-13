@@ -362,6 +362,14 @@ html {
   display: none;
 }
 
+.item-tooltip .special {
+  color: #e3b82b;
+}
+
+.item-tooltip .unlock {
+  color: #80e329;
+}
+
 .item-tooltip .item-title {
   font-size: 20px;
   margin: 0 0 4px;
@@ -374,7 +382,7 @@ html {
 }
 
 .main .textbox .special {
-  color: #ff0;
+  color: #e3b82b;
 }
 
 .main .textbox .notspecial {
@@ -383,7 +391,7 @@ html {
 
 .main .textbox .pickup,
 .main .textbox .unlock {
-  color: var(--tboi-green);
+  color: #80e329;
 }
 
 @media only screen and (max-width: 700px) {
