@@ -2,13 +2,13 @@
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="styles.css">
-<link rel="icon" type="image/png" href="isaacHead.png">
-<title>The Binding of Isaac</title>
+<link rel="icon" type="image/webp" href="isaacHead.png">
+
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
     <div class="startup-warning" role="dialog" aria-modal="true" aria-labelledby="startup-warning-title">
       <div class="startup-warning-panel">
-        <h1 id="startup-warning-title">Click the game screen first</h1>
+        <h1 id="startup-warning-title">⚠️ Click the game screen first ⚠️</h1>
         <p>You need to click the actual game screen before playing. If you do not, your keys may interact with this page instead of the game.</p>
         <button class="startup-warning-button" type="button">Continue</button>
       </div>
@@ -43,8 +43,13 @@
   <a class="mode-option" href="#calculator">Calculator</a>
 </nav>
 <div class="search item-search">
-  <form action="#">
-    <input class="search-input" type="text" autocomplete="off" placeholder="Search items!">
+  <form action="#" style="display: flex;">
+    <select class="search-sort" style="height: 100%; width: 120px; margin-right: 5px;">
+      <option value="itemid">Sort by ID</option>
+      <option value="alphabet">Sort by Name</option>
+      <option value="colour">Sort by Color</option>
+    </select>
+    <input class="search-input" type="text" autocomplete="off" placeholder="Search items!" style="flex: 1;">
   </form>
 </div>
 	</div>
@@ -2597,7 +2602,7 @@
     <p>Does exactly what it says on the tin - Using the portable slot gives you the same effect as the Red Slot machine.</p>
     <p>Using this in a boss room to spawn a blаck fly after defeating the boss will enable the player to leave the room and re-enter, which will refresh the boss room and therefore give you another item.</p>
     <p>Recharge Time: Instant.</p>
-    <p class="tags">* active item, spacebar item, red,</p>
+    <p class="tags">* active item, spacebar item, red</p>
     </span>
     </a>
 </li>
@@ -3512,11 +3517,9 @@
 <li class="textbox" data-tid="15" data-sid="25">
 	<a><div onclick="" class='vanillacard item card14'></div>
     <span>
-    <p class="item-title">XIV - Temperance:</p>
-    <p class="itemid">(CardID: 21)</p>
-    <p>Spawns a Blood Donation Machine.</p>
-    <p>This card is best saved and spawned directly next to another Blood Donation Machine to enable you to play both machines with a single half-heart.</p>
-    <p>Using Blood Donation Machines or picking up the Blood Bag does not increase the chance at a God/Angel/Devil Room to spawn, as it is sometimes believed.</p>
+    <p class="item-title">XVI - The Tower:</p>
+    <p class="itemid">(CardID: 23)</p>
+    <p>Spawns six troll bombs at random locations in the current room.</p>
     <p class="tags">* </p>
     </span>
     </a>
@@ -3538,9 +3541,11 @@
 <li class="textbox" data-tid="17" data-sid="27">
 	<a><div onclick="" class='vanillacard item card16'></div>
     <span>
-    <p class="item-title">XVI - The Tower:</p>
-    <p class="itemid">(CardID: 23)</p>
-    <p>Spawns six troll bombs at random locations in the current room.</p>
+    <p class="item-title">XIV - Temperance:</p>
+    <p class="itemid">(CardID: 21)</p>
+    <p>Spawns a Blood Donation Machine.</p>
+    <p>This card is best saved and spawned directly next to another Blood Donation Machine to enable you to play both machines with a single half-heart.</p>
+    <p>Using Blood Donation Machines or picking up the Blood Bag does not increase the chance at a God/Angel/Devil Room to spawn, as it is sometimes believed.</p>
     <p class="tags">* </p>
     </span>
     </a>
@@ -3691,7 +3696,19 @@ document.querySelectorAll(".mode-option").forEach(function(option) {
     });
     option.classList.add("is-active");
     option.setAttribute("aria-current", "page");
-    document.querySelector(".item-search").hidden = option.getAttribute("href") !== "#items";
+    var showItems = option.getAttribute("href") === "#items";
+    var itemSearch = document.querySelector(".item-search");
+    if (itemSearch) {
+      itemSearch.hidden = !showItems;
+      itemSearch.style.display = showItems ? "flex" : "none";
+    }
+    ['.items-container', '.trinkets-container', '.tarot-container'].forEach(function(selector) {
+      var section = document.querySelector(selector);
+      if (section) {
+        section.hidden = !showItems;
+        section.style.display = showItems ? "" : "none";
+      }
+    });
   });
 });
 
@@ -3719,6 +3736,49 @@ var gameFrame = document.querySelector(".game-frame");
 
 if (itemSearchInput) {
   itemSearchInput.blur();
+}
+
+if (itemSearchInput) {
+  itemSearchInput.addEventListener('input', function() {
+    var filter = this.value.toLowerCase();
+    var textboxes = document.querySelectorAll('.main .textbox');
+    textboxes.forEach(function(textbox) {
+      var text = textbox.textContent.toLowerCase();
+      if (text.includes(filter)) {
+        textbox.style.display = '';
+      } else {
+        textbox.style.display = 'none';
+      }
+    });
+  });
+}
+
+var searchSort = document.querySelector('.search-sort');
+if (searchSort) {
+  searchSort.addEventListener('change', function() {
+    var sortBy = this.value;
+    var container = document.querySelector('.items-container');
+    var textboxes = Array.from(container.querySelectorAll('.textbox'));
+    textboxes.sort(function(a, b) {
+      var aVal, bVal;
+      if (sortBy === 'itemid') {
+        aVal = parseInt(a.getAttribute('data-sid'));
+        bVal = parseInt(b.getAttribute('data-sid'));
+      } else if (sortBy === 'alphabet') {
+        aVal = a.querySelector('.item-title').textContent.toLowerCase();
+        bVal = b.querySelector('.item-title').textContent.toLowerCase();
+      } else if (sortBy === 'colour') {
+        aVal = a.getAttribute('data-cid') || '';
+        bVal = b.getAttribute('data-cid') || '';
+      }
+      if (aVal < bVal) return -1;
+      if (aVal > bVal) return 1;
+      return 0;
+    });
+    textboxes.forEach(function(textbox) {
+      container.appendChild(textbox);
+    });
+  });
 }
 
 document.addEventListener("keydown", function(event) {
