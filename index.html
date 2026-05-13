@@ -43,13 +43,15 @@
   <a class="mode-option" href="#calculator">Calculator</a>
 </nav>
 <div class="search item-search">
-  <form action="#" style="display: flex;">
-    <select class="search-sort" style="height: 100%; width: 120px; margin-right: 5px;">
-      <option value="itemid">Sort by ID</option>
-      <option value="alphabet">Sort by Name</option>
-      <option value="colour">Sort by Color</option>
-    </select>
-    <input class="search-input" type="text" autocomplete="off" placeholder="Search items!" style="flex: 1;">
+  <form action="#">
+    <span class="search-sort-wrapper">
+      <select class="search-sort">
+        <option value="itemid">Sort by ID</option>
+        <option value="alphabet">Sort by Name</option>
+        <option value="colour">Sort by Color</option>
+      </select>
+    </span>
+    <input class="search-input" type="text" autocomplete="off" placeholder="Search items!">
   </form>
 </div>
 	</div>
@@ -3741,42 +3743,66 @@ if (itemSearchInput) {
 if (itemSearchInput) {
   itemSearchInput.addEventListener('input', function() {
     var filter = this.value.toLowerCase();
-    var textboxes = document.querySelectorAll('.main .textbox');
-    textboxes.forEach(function(textbox) {
-      var text = textbox.textContent.toLowerCase();
-      if (text.includes(filter)) {
-        textbox.style.display = '';
-      } else {
-        textbox.style.display = 'none';
-      }
+    var containers = ['.items-container', '.trinkets-container', '.tarot-container'];
+    containers.forEach(function(selector) {
+      var container = document.querySelector(selector);
+      if (!container) return;
+      var textboxes = container.querySelectorAll('.textbox');
+      textboxes.forEach(function(textbox) {
+        var text = textbox.textContent.toLowerCase();
+        if (text.includes(filter)) {
+          textbox.style.display = '';
+        } else {
+          textbox.style.display = 'none';
+        }
+      });
     });
   });
 }
 
 var searchSort = document.querySelector('.search-sort');
 if (searchSort) {
+  var rainbowOrder = ['red', 'orange', 'yellow', 'gold', 'green', 'blue', 'indigo', 'violet', 'purple', 'pink', 'brown', 'tan', 'white', 'silver', 'grey', 'gray', 'black'];
+  
+  function getColorIndex(element) {
+    var tagsElement = element.querySelector('.tags');
+    if (!tagsElement) return rainbowOrder.length;
+    var tagsText = tagsElement.textContent.toLowerCase();
+    var minIndex = rainbowOrder.length;
+    rainbowOrder.forEach(function(color, index) {
+      if (tagsText.includes(color)) {
+        minIndex = Math.min(minIndex, index);
+      }
+    });
+    return minIndex;
+  }
+  
   searchSort.addEventListener('change', function() {
     var sortBy = this.value;
-    var container = document.querySelector('.items-container');
-    var textboxes = Array.from(container.querySelectorAll('.textbox'));
-    textboxes.sort(function(a, b) {
-      var aVal, bVal;
-      if (sortBy === 'itemid') {
-        aVal = parseInt(a.getAttribute('data-sid'));
-        bVal = parseInt(b.getAttribute('data-sid'));
-      } else if (sortBy === 'alphabet') {
-        aVal = a.querySelector('.item-title').textContent.toLowerCase();
-        bVal = b.querySelector('.item-title').textContent.toLowerCase();
-      } else if (sortBy === 'colour') {
-        aVal = a.getAttribute('data-cid') || '';
-        bVal = b.getAttribute('data-cid') || '';
-      }
-      if (aVal < bVal) return -1;
-      if (aVal > bVal) return 1;
-      return 0;
-    });
-    textboxes.forEach(function(textbox) {
-      container.appendChild(textbox);
+    var containers = ['.items-container', '.trinkets-container', '.tarot-container'];
+    containers.forEach(function(selector) {
+      var container = document.querySelector(selector);
+      if (!container) return;
+      var textboxes = Array.from(container.querySelectorAll('.textbox'));
+      textboxes.sort(function(a, b) {
+        var aVal, bVal;
+        if (sortBy === 'itemid') {
+          aVal = parseInt(a.getAttribute('data-sid'));
+          bVal = parseInt(b.getAttribute('data-sid'));
+        } else if (sortBy === 'alphabet') {
+          aVal = a.querySelector('.item-title').textContent.toLowerCase();
+          bVal = b.querySelector('.item-title').textContent.toLowerCase();
+        } else if (sortBy === 'colour') {
+          aVal = getColorIndex(a);
+          bVal = getColorIndex(b);
+        }
+        if (aVal < bVal) return -1;
+        if (aVal > bVal) return 1;
+        return 0;
+      });
+      textboxes.forEach(function(textbox) {
+        container.appendChild(textbox);
+      });
     });
   });
 }
