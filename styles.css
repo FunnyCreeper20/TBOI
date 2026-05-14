@@ -115,16 +115,18 @@ html {
     inset 0 0 0 2px #090909;
 }
 
-#gameParent object,
-#gameParent ruffle-player {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-  margin: 0;
-  background: var(--tboi-black);
-  border: 0;
-  box-shadow: none;
+#gameParent object, #gameParent ruffle-player {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    margin: 0;
+    background: var(--tboi-black);
+    border: 0;
+    box-shadow: none;
+    /* Add these lines to fix the scaling */
+    object-fit: contain; 
+    object-position: center;
 }
 
 .mode-selector {
