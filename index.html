@@ -104,6 +104,7 @@
       <div class="synergy-preview">
         <h3>Synergy Preview</h3>
         <div class="synergy-image">
+          <img alt="The synergy between the selected items" src="https://tboi.com/images/jifs/nah.png">
           <div class="synergy-items" aria-label="Selected items"></div>
         </div>
       </div>
@@ -4365,6 +4366,7 @@ if (window.jQuery && !jQuery.fn.msDropDown) {
 <script src="https://tboi.com/old/js/synergy.js"></script>
 <script>
 (function() {
+  var preview = document.querySelector(".synergy-image > img");
   var itemPreview = document.querySelector(".synergy-items");
   var color = document.querySelector(".synergy-color");
   var colorDescription = document.querySelector(".synergy-color-description");
@@ -4394,12 +4396,19 @@ if (window.jQuery && !jQuery.fn.msDropDown) {
     return;
   }
 
+  function normalizePreview() {
+    var source = preview.getAttribute("src");
+    if (source && source.indexOf("http") !== 0) {
+      preview.src = "https://tboi.com/" + source.replace(/^\/+/, "");
+    }
+  }
+
   function renderSelectedItems() {
     itemPreview.replaceChildren();
     selectors.forEach(function(selector, index) {
       var item = document.createElement("div");
       var itemClass = itemClasses[selector.value];
-      item.className = "item vitem synergy-item" + (itemClass ? " " + itemClass : "");
+      item.className = "item vitem synergy-item" + (itemClass ? " " + itemClass + " reb-itm-new re-" + itemClass : "");
       item.setAttribute("role", "img");
       item.setAttribute("aria-label", selector.options[selector.selectedIndex].text + " (item " + (index + 1) + ")");
       itemPreview.appendChild(item);
@@ -4417,6 +4426,8 @@ if (window.jQuery && !jQuery.fn.msDropDown) {
   }
 
   document.querySelector(".synergy-main").addEventListener("change", renderSelectedItems);
+  normalizePreview();
+  new MutationObserver(normalizePreview).observe(preview, { attributes: true, attributeFilter: ["src"] });
   renderSelectedItems();
 })();
 </script>
