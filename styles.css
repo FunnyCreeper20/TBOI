@@ -214,12 +214,117 @@ html {
   text-shadow: 0 2px 2px #000;
 }
 
-.synergies-frame {
-  display: block;
-  width: 100%;
-  min-height: 860px;
+.synergy-main {
+  padding: clamp(18px, 3vw, 32px);
+  border: 1px solid rgba(242, 236, 222, 0.2);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.synergy-selectors {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.synergy-selectors label {
+  display: grid;
+  gap: 8px;
+  width: min(280px, 100%);
+  color: var(--tboi-cream);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.synergy-selectors select {
+  min-height: 46px;
+  padding: 0 12px;
   border: 1px solid var(--tboi-taupe);
-  background: #151515;
+  background: var(--tboi-charcoal);
+  color: var(--tboi-cream);
+  font: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.synergy-symbol {
+  padding-bottom: 10px;
+  color: var(--tboi-highlight);
+  font-size: 24px;
+}
+
+.synergy-main h3 {
+  margin: 22px 0 10px;
+  color: var(--tboi-cream);
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.synergy-text {
+  min-height: 76px;
+  padding: 18px;
+  border-left: 4px solid var(--tboi-highlight);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--tboi-cream);
+  line-height: 1.55;
+}
+
+.synergy-preview-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.synergy-image {
+  display: grid;
+  min-height: 220px;
+  place-items: center;
+  padding: 18px;
+  border: 1px solid rgba(242, 236, 222, 0.2);
+  background: #111;
+}
+
+.synergy-image img {
+  display: block;
+  max-width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+}
+
+.synergy-legend {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px 10px;
+  align-items: center;
+  padding-top: 48px;
+}
+
+.synergy-legend p {
+  margin: 0;
+  color: var(--tboi-cream);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.synergy-color {
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.synergy-color.green {
+  background: #55a630;
+}
+
+.synergy-color.red {
+  background: #c83e4d;
+}
+
+.synergy-color.orange {
+  background: #e07a1f;
 }
 
 .item-search form {
@@ -581,6 +686,29 @@ html {
     width: auto;
     margin: 0 10px;
     padding: 38px 20px 44px;
+  }
+
+  .synergy-selectors {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .synergy-selectors label {
+    width: 100%;
+  }
+
+  .synergy-symbol {
+    align-self: center;
+    padding: 0;
+  }
+
+  .synergy-preview-row {
+    grid-template-columns: 1fr;
+  }
+
+  .synergy-legend {
+    padding-top: 0;
   }
 }
 
