@@ -263,6 +263,8 @@ html {
 }
 
 .synergy-text {
+  display: block;
+  width: 100%;
   min-height: 76px;
   padding: 18px;
   border-left: 4px solid var(--tboi-highlight);
@@ -273,6 +275,8 @@ html {
 
 .synergy-preview-row {
   display: grid;
+  clear: both;
+  width: 100%;
   grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr);
   gap: 28px;
   align-items: start;
@@ -280,11 +284,20 @@ html {
 
 .synergy-image {
   display: grid;
-  min-height: 220px;
+  grid-template-rows: minmax(180px, 1fr) auto;
+  min-height: 320px;
   place-items: center;
   padding: 18px;
   border: 1px solid rgba(242, 236, 222, 0.2);
   background: #111;
+}
+
+.synergy-image > img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  max-height: 360px;
+  object-fit: contain;
 }
 
 .synergy-items {
