@@ -238,15 +238,60 @@ html {
   text-transform: uppercase;
 }
 
+.synergy-select-control {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
 .synergy-selectors select {
   min-height: 46px;
+  flex: 1 1 auto;
   padding: 0 12px;
-  border: 1px solid var(--tboi-taupe);
-  background: var(--tboi-charcoal);
+  border: 1px solid rgba(242, 236, 222, 0.42);
+  border-radius: 3px;
+  background: linear-gradient(135deg, #464646, #252525);
   color: var(--tboi-cream);
   font: inherit;
+  font-weight: 700;
   letter-spacing: 0;
   text-transform: none;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--tboi-cream) 50%),
+    linear-gradient(135deg, var(--tboi-cream) 50%, transparent 50%),
+    linear-gradient(135deg, #464646, #252525);
+  background-position: calc(100% - 18px) 20px, calc(100% - 12px) 20px, 0 0;
+  background-size: 6px 6px, 6px 6px, 100% 100%;
+  background-repeat: no-repeat;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.synergy-selectors select:hover,
+.synergy-selectors select:focus {
+  border-color: var(--tboi-highlight);
+  box-shadow: 0 0 0 3px rgba(252, 109, 109, 0.16);
+}
+
+.synergy-selectors select:focus {
+  transform: translateY(-1px);
+}
+
+.synergy-selectors option {
+  background: var(--tboi-charcoal);
+  color: var(--tboi-cream);
+}
+
+.synergy-selector-item {
+  display: block;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(242, 236, 222, 0.2);
+  background-color: #111;
+  transform: scale(1.05);
 }
 
 .synergy-symbol {
@@ -291,26 +336,12 @@ html {
   border: 1px solid rgba(242, 236, 222, 0.2);
   background: #111;
 }
-
 .synergy-image > img {
   display: block;
   width: 100%;
   max-width: 100%;
   max-height: 360px;
   object-fit: contain;
-}
-
-.synergy-items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 28px;
-  width: 100%;
-}
-
-.synergy-item {
-  flex: 0 0 auto;
-  transform: scale(1.35);
 }
 
 .synergy-legend {
