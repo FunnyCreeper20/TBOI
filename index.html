@@ -15,7 +15,7 @@
     </div>
     <div id="gameParent" style="text-align: center;">
       <div class="game-frame" tabindex="-1">
-        <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" id="https://trapjawws.github.io/josh/The%20Binding%20of%20Isaac.swf" width="100%" style="width:100%;height:100%;">
+        <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" type="application/x-shockwave-flash" id="isaac-game" data="https://trapjawws.github.io/josh/The%20Binding%20of%20Isaac.swf" width="100%" style="width:100%;height:100%;">
             <param name="movie" value="https://trapjawws.github.io/josh/The%20Binding%20of%20Isaac.swf">
             <param name="quality" value="high">
             <param name="play" value="true">
@@ -54,6 +54,16 @@
     <input class="search-input" type="text" autocomplete="off" placeholder="Search items!">
   </form>
 </div>
+
+<section class="synergies-container" id="synergies" hidden>
+  <h2>Item Synergies</h2>
+  <iframe
+    class="synergies-frame"
+    src="https://tboi.com/synergies"
+    title="The Binding of Isaac item synergies"
+    loading="lazy">
+  </iframe>
+</section>
 	</div>
 </header>
 <div class="main">
@@ -3682,11 +3692,6 @@
 
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-<script src="https://tboi.com/assets/vendor/jquery.tinysort.min.js"></script>
-<script src="https://tboi.com/assets/vendor/underscore-min.js"></script>
-<script src="https://tboi.com/assets/scripts/main.js?v=202104211315"></script>
 <div class="item-tooltip" aria-hidden="true"></div>
 <script>
 document.querySelectorAll(".mode-option").forEach(function(option) {
@@ -3698,7 +3703,8 @@ document.querySelectorAll(".mode-option").forEach(function(option) {
     });
     option.classList.add("is-active");
     option.setAttribute("aria-current", "page");
-    var showItems = option.getAttribute("href") === "#items";
+    var selectedSection = option.getAttribute("href");
+    var showItems = selectedSection === "#items";
     var itemSearch = document.querySelector(".item-search");
     if (itemSearch) {
       itemSearch.hidden = !showItems;
@@ -3711,29 +3717,37 @@ document.querySelectorAll(".mode-option").forEach(function(option) {
         section.style.display = showItems ? "" : "none";
       }
     });
+    var synergies = document.querySelector(".synergies-container");
+    if (synergies) {
+      synergies.hidden = selectedSection !== "#synergies";
+    }
   });
 });
 
 var itemTooltip = document.querySelector(".item-tooltip");
 var lastTooltipShow = 0;
 var hideTooltipTimer;
+var pinnedTooltipItem = null;
 var itemSearchInput = document.querySelector(".item-search .search-input");
 var startupWarning = document.querySelector(".startup-warning");
 var startupWarningButton = document.querySelector(".startup-warning-button");
 
 document.addEventListener('click', function(event) {
+  if (itemTooltip && itemTooltip.contains(event.target)) {
+    return;
+  }
   var textbox = event.target.closest('.textbox');
-  if (!textbox) return;
-  event.preventDefault();
-  event.stopImmediatePropagation();
+  if (textbox) {
+    event.preventDefault();
+    return;
+  }
+  if (pinnedTooltipItem) {
+    pinnedTooltipItem = null;
+    itemTooltip.classList.remove("is-pinned", "is-visible");
+    itemTooltip.setAttribute("aria-hidden", "true");
+  }
 }, true);
 
-// Remove the auto-focus behavior after remote script loads
-setTimeout(function() {
-  if (typeof $ !== 'undefined') {
-    $(document).off('keydown');
-  }
-}, 100);
 var gameFrame = document.querySelector(".game-frame");
 
 if (itemSearchInput) {
@@ -3873,7 +3887,7 @@ document.querySelectorAll(".main .textbox").forEach(function(item) {
     return;
   }
 
-  item.addEventListener("mouseenter", function() {
+  function showTooltip() {
     var now = Date.now();
     var isFastSwap = now - lastTooltipShow < 420;
     clearTimeout(hideTooltipTimer);
@@ -3894,9 +3908,19 @@ document.querySelectorAll(".main .textbox").forEach(function(item) {
     itemTooltip.setAttribute("aria-hidden", "false");
     itemTooltip.classList.add("is-visible");
     lastTooltipShow = now;
+  }
+
+  item.addEventListener("mouseenter", function() {
+    if (pinnedTooltipItem && pinnedTooltipItem !== item) {
+      return;
+    }
+    showTooltip();
   });
 
   item.addEventListener("mouseleave", function() {
+    if (pinnedTooltipItem === item) {
+      return;
+    }
     itemTooltip.classList.remove("is-visible");
     itemTooltip.setAttribute("aria-hidden", "true");
     hideTooltipTimer = setTimeout(function() {
@@ -3904,6 +3928,14 @@ document.querySelectorAll(".main .textbox").forEach(function(item) {
         itemTooltip.innerHTML = "";
       }
     }, 260);
+  });
+
+  item.addEventListener("click", function(event) {
+    event.preventDefault();
+    pinnedTooltipItem = item;
+    showTooltip();
+    itemTooltip.classList.add("is-pinned", "is-visible");
+    itemTooltip.setAttribute("aria-hidden", "false");
   });
 });
 

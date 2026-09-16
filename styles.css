@@ -101,11 +101,13 @@ html {
   box-sizing: border-box;
   position: relative;
   width: min(100%, 90vw, calc(90vh * 470 / 270));
+  min-height: 0;
   max-width: 100%;
   max-height: min(100vh, calc(100vw * 270 / 470));
   aspect-ratio: 470 / 270;
   margin: 0 auto 18px;
   padding: clamp(6px, 1.4vw, 18px);
+  overflow: hidden;
   background:
     linear-gradient(145deg, #303030, #121212 58%, #060606),
     #111;
@@ -119,8 +121,11 @@ html {
     display: block;
     width: 100%;
     max-width: 100%;
+    min-width: 0;
+    min-height: 0;
     height: 100%;
     margin: 0;
+    overflow: hidden;
     background: var(--tboi-black);
     border: 0;
     box-shadow: none;
@@ -191,6 +196,30 @@ html {
 
 .item-search[hidden] {
   display: none;
+}
+
+.synergies-container {
+  width: min(1000px, 100%);
+  margin: 0 auto 24px;
+  color: var(--tboi-cream);
+}
+
+.synergies-container[hidden] {
+  display: none;
+}
+
+.synergies-container h2 {
+  margin: 0 0 12px;
+  color: var(--tboi-cream);
+  text-shadow: 0 2px 2px #000;
+}
+
+.synergies-frame {
+  display: block;
+  width: 100%;
+  min-height: 860px;
+  border: 1px solid var(--tboi-taupe);
+  background: #151515;
 }
 
 .item-search form {
@@ -447,6 +476,10 @@ html {
 .item-tooltip.is-visible {
   opacity: 1;
   transform: translate(-50%, 0) scale(1);
+}
+
+.item-tooltip.is-pinned {
+  pointer-events: auto;
 }
 
 .item-tooltip.is-fast {
