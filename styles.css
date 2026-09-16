@@ -287,17 +287,11 @@ html {
   background: #111;
 }
 
-.synergy-items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 28px;
-  width: 100%;
-}
-
-.synergy-item {
-  flex: 0 0 auto;
-  transform: scale(1.35);
+.synergy-image img {
+  display: block;
+  max-width: 100%;
+  max-height: 360px;
+  object-fit: contain;
 }
 
 .synergy-legend {

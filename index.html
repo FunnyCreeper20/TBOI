@@ -104,12 +104,16 @@
       <div class="synergy-preview">
         <h3>Synergy Preview</h3>
         <div class="synergy-image">
-          <div class="synergy-items" aria-label="Selected items"></div>
+          <img alt="The synergy between the selected items" src="https://tboi.com/images/jifs/nah.png">
         </div>
       </div>
       <div class="synergy-legend">
+        <div class="synergy-color green" aria-label="Good synergy"></div>
+        <p><strong>Green</strong> means the items have a good synergy.</p>
+        <div class="synergy-color red" aria-label="Bad synergy"></div>
+        <p><strong>Red</strong> means the synergy is harmful or undesirable.</p>
         <div class="synergy-color orange" aria-label="Neutral synergy"></div>
-        <p class="synergy-color-description"><strong>Orange</strong> means the synergy is neutral or one item overrides the other.</p>
+        <p><strong>Orange</strong> means the synergy is neutral or one item overrides the other.</p>
       </div>
     </div>
   </div>
@@ -4365,60 +4369,19 @@ if (window.jQuery && !jQuery.fn.msDropDown) {
 <script src="https://tboi.com/old/js/synergy.js"></script>
 <script>
 (function() {
-  var itemPreview = document.querySelector(".synergy-items");
-  var color = document.querySelector(".synergy-color");
-  var colorDescription = document.querySelector(".synergy-color-description");
-  var selectors = [document.querySelector("#combo1"), document.querySelector("#combo2")];
-  var itemClasses = {
-    brimstone: "itm118",
-    chocolate: "itm69",
-    cold: "itm103",
-    epic: "itm168",
-    fetus: "itm52",
-    guppy: "itm145",
-    ipecac: "itm149",
-    knife: "itm114",
-    contacts: "itm110",
-    one: "itm6",
-    polyphemus: "itm169",
-    sacred: "itm182",
-    spider: "itm89",
-    spoon: "itm3",
-    tech: "itm68",
-    tech2: "itm152",
-    triple: "itm2",
-    wiggle: "itm59"
-  };
-
-  if (!itemPreview || selectors.some(function(selector) { return !selector; })) {
+  var preview = document.querySelector(".synergy-image img");
+  if (!preview) {
     return;
   }
 
-  function renderSelectedItems() {
-    itemPreview.replaceChildren();
-    selectors.forEach(function(selector, index) {
-      var item = document.createElement("div");
-      var itemClass = itemClasses[selector.value];
-      item.className = "item vitem synergy-item" + (itemClass ? " " + itemClass : "");
-      item.setAttribute("role", "img");
-      item.setAttribute("aria-label", selector.options[selector.selectedIndex].text + " (item " + (index + 1) + ")");
-      itemPreview.appendChild(item);
-    });
-
-    if (selectors[0].value === selectors[1].value) {
-      color.className = "synergy-color orange";
+  function normalizePreview() {
+    if (preview.getAttribute("src").indexOf("http") !== 0) {
+      preview.src = "https://tboi.com/" + preview.getAttribute("src").replace(/^\/+/, "");
     }
-    color.setAttribute("aria-label", color.classList.contains("green") ? "Good synergy" : color.classList.contains("red") ? "Bad synergy" : "Neutral synergy");
-    colorDescription.innerHTML = color.classList.contains("green")
-      ? "<strong>Green</strong> means the items have a good synergy."
-      : color.classList.contains("red")
-        ? "<strong>Red</strong> means the synergy is harmful or undesirable."
-        : "<strong>Orange</strong> means the synergy is neutral or one item overrides the other.";
   }
 
-  document.querySelector(".synergy-main").addEventListener("change", renderSelectedItems);
-  renderSelectedItems();
+  normalizePreview();
+  new MutationObserver(normalizePreview).observe(preview, { attributes: true, attributeFilter: ["src"] });
 })();
 </script>
-<script src="scripts.js"></script>
 </body>
