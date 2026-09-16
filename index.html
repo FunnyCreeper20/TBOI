@@ -6,7 +6,7 @@
 
 
 <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-    <div class="startup-warning" role="dialog" aria-modal="true" aria-labelledby="startup-warning-title">
+    <div class="startup-warning" role="dialog" aria-modal="true" aria-labelledby="startup-warning-title" hidden>
       <div class="startup-warning-panel">
         <h1 id="startup-warning-title">⚠️ Click the game screen first ⚠️</h1>
         <p>You need to click the actual game screen before playing. If you do not, your keys may interact with this page instead of the game.</p>
@@ -61,7 +61,8 @@
     <div class="synergy-selectors" aria-label="Choose two items">
       <label>
         <span>First item</span>
-        <select id="combo1" name="combo1">
+        <span class="synergy-select-control">
+          <select id="combo1" name="combo1">
           <option value="brimstone">Brimstone</option>
           <option value="fetus">Dr. Fetus</option>
           <option value="guppy">Guppy</option>
@@ -69,12 +70,15 @@
           <option value="knife">Mom's Knife</option>
           <option value="tech">Technology</option>
           <option value="tech2">Technology 2</option>
-        </select>
+          </select>
+          <span class="synergy-selector-item" aria-hidden="true"></span>
+        </span>
       </label>
       <span class="synergy-symbol" aria-hidden="true">+</span>
       <label>
         <span>Second item</span>
-        <select id="combo2" name="combo2">
+        <span class="synergy-select-control">
+          <select id="combo2" name="combo2">
           <option value="brimstone">Brimstone</option>
           <option value="chocolate">Chocolate Milk</option>
           <option value="cold">Common Cold</option>
@@ -93,7 +97,9 @@
           <option value="tech">Technology</option>
           <option value="tech2">Technology 2</option>
           <option value="wiggle">Wiggle Worm</option>
-        </select>
+          </select>
+          <span class="synergy-selector-item" aria-hidden="true"></span>
+        </span>
       </label>
     </div>
 
@@ -105,7 +111,6 @@
         <h3>Synergy Preview</h3>
         <div class="synergy-image">
           <img alt="The synergy between the selected items" src="https://tboi.com/images/jifs/nah.png">
-          <div class="synergy-items" aria-label="Selected items"></div>
         </div>
       </div>
       <div class="synergy-legend">
@@ -3801,6 +3806,26 @@ document.addEventListener('click', function(event) {
 
 var gameFrame = document.querySelector(".game-frame");
 
+function focusGame() {
+  var game = document.querySelector("#isaac-game, #gameParent ruffle-player");
+  if (gameFrame) {
+    gameFrame.focus({ preventScroll: true });
+  }
+  if (game) {
+    game.focus({ preventScroll: true });
+    game.click();
+  }
+}
+
+if (gameFrame) {
+  gameFrame.addEventListener("pointerdown", function() {
+    if (startupWarning) {
+      startupWarning.hidden = true;
+    }
+    focusGame();
+  });
+}
+
 if (itemSearchInput) {
   itemSearchInput.blur();
 }
@@ -3899,10 +3924,22 @@ document.addEventListener("keydown", function(event) {
   var isEditable = target && (
     target.tagName === "INPUT" ||
     target.tagName === "TEXTAREA" ||
+    target.tagName === "SELECT" ||
     target.isContentEditable
   );
   var isPlainTyping = event.key.length === 1 && !event.metaKey && !event.ctrlKey && !event.altKey;
   var isGameplayKey = gameplayKeys.indexOf(event.key) !== -1;
+
+  var isWarningVisible = startupWarning && !startupWarning.hidden;
+
+  if (isGameplayKey && !isEditable && isWarningVisible) {
+    event.preventDefault();
+  }
+
+  if (isGameplayKey && !isEditable && !isWarningVisible) {
+    event.preventDefault();
+    focusGame();
+  }
 
   if (isPlainTyping && !isGameplayKey && !isSearchInput && !isEditable) {
     event.stopImmediatePropagation();
@@ -3912,10 +3949,7 @@ document.addEventListener("keydown", function(event) {
 if (startupWarningButton) {
   startupWarningButton.addEventListener("click", function() {
     startupWarning.hidden = true;
-    if (gameFrame) {
-      gameFrame.focus();
-      gameFrame.click();
-    }
+    focusGame();
   });
 }
 
@@ -3925,9 +3959,7 @@ if (startupWarning) {
       return;
     }
     startupWarning.hidden = true;
-    if (gameFrame) {
-      gameFrame.focus();
-    }
+    focusGame();
   });
 }
 
@@ -4367,7 +4399,7 @@ if (window.jQuery && !jQuery.fn.msDropDown) {
 <script>
 (function() {
   var preview = document.querySelector(".synergy-image > img");
-  var itemPreview = document.querySelector(".synergy-items");
+  var selectorItems = document.querySelectorAll(".synergy-selector-item");
   var color = document.querySelector(".synergy-color");
   var colorDescription = document.querySelector(".synergy-color-description");
   var selectors = [document.querySelector("#combo1"), document.querySelector("#combo2")];
@@ -4381,6 +4413,7 @@ if (window.jQuery && !jQuery.fn.msDropDown) {
     ipecac: "itm149",
     knife: "itm114",
     contacts: "itm110",
+    quad: "itm153",
     one: "itm6",
     polyphemus: "itm169",
     sacred: "itm182",
@@ -4392,7 +4425,7 @@ if (window.jQuery && !jQuery.fn.msDropDown) {
     wiggle: "itm59"
   };
 
-  if (!itemPreview || selectors.some(function(selector) { return !selector; })) {
+  if (selectorItems.length !== selectors.length || selectors.some(function(selector) { return !selector; })) {
     return;
   }
 
@@ -4404,14 +4437,12 @@ if (window.jQuery && !jQuery.fn.msDropDown) {
   }
 
   function renderSelectedItems() {
-    itemPreview.replaceChildren();
     selectors.forEach(function(selector, index) {
-      var item = document.createElement("div");
+      var item = selectorItems[index];
       var itemClass = itemClasses[selector.value];
-      item.className = "item vitem synergy-item" + (itemClass ? " " + itemClass + " reb-itm-new re-" + itemClass : "");
+      item.className = "item vitem synergy-selector-item" + (itemClass ? " " + itemClass + " reb-itm-new re-" + itemClass : "");
       item.setAttribute("role", "img");
       item.setAttribute("aria-label", selector.options[selector.selectedIndex].text + " (item " + (index + 1) + ")");
-      itemPreview.appendChild(item);
     });
 
     if (selectors[0].value === selectors[1].value) {
