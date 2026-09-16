@@ -312,10 +312,26 @@ html {
   width: 100%;
   min-height: 76px;
   padding: 18px;
-  border-left: 4px solid var(--tboi-highlight);
-  background: rgba(255, 255, 255, 0.06);
   color: var(--tboi-cream);
   line-height: 1.55;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-left-width: 6px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.synergy-text.green {
+  border-color: #55a630;
+  background: rgba(85, 166, 48, 0.24);
+}
+
+.synergy-text.red {
+  border-color: #c83e4d;
+  background: rgba(200, 62, 77, 0.24);
+}
+
+.synergy-text.orange {
+  border-color: #e07a1f;
+  background: rgba(224, 122, 31, 0.24);
 }
 
 .synergy-preview-row {
