@@ -100,14 +100,13 @@ html {
 .game-frame {
   box-sizing: border-box;
   position: relative;
-  width: min(100%, 90vw, calc(90vh * 470 / 270));
+  width: min(100%, 94vw, calc(94vh * 470 / 270));
   min-height: 0;
   max-width: 100%;
-  max-height: min(100vh, calc(100vw * 270 / 470));
-  aspect-ratio: 470 / 270;
+  height: auto;
   margin: 0 auto 18px;
   padding: clamp(6px, 1.4vw, 18px);
-  overflow: hidden;
+  overflow: visible;
   background:
     linear-gradient(145deg, #303030, #121212 58%, #060606),
     #111;
@@ -123,9 +122,10 @@ html {
     max-width: 100%;
     min-width: 0;
     min-height: 0;
-    height: 100%;
+    height: auto !important;
+    aspect-ratio: 470 / 270;
     margin: 0;
-    overflow: hidden;
+    overflow: visible;
     background: var(--tboi-black);
     border: 0;
     box-shadow: none;
@@ -789,7 +789,7 @@ html {
   }
 
   .game-frame {
-    width: min(94vw, calc(82vh * 470 / 270));
+    width: min(94vw, calc(90vh * 470 / 270));
     padding: 18px 20px;
   }
 
