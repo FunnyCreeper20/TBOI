@@ -57,12 +57,66 @@
 
 <section class="synergies-container" id="synergies" hidden>
   <h2>Item Synergies</h2>
-  <iframe
-    class="synergies-frame"
-    src="https://tboi.com/synergies"
-    title="The Binding of Isaac item synergies"
-    loading="lazy">
-  </iframe>
+  <div class="synergy-main">
+    <div class="synergy-selectors" aria-label="Choose two items">
+      <label>
+        <span>First item</span>
+        <select id="combo1" name="combo1">
+          <option value="brimstone">Brimstone</option>
+          <option value="fetus">Dr. Fetus</option>
+          <option value="guppy">Guppy</option>
+          <option value="ipecac">IPECAC</option>
+          <option value="knife">Mom's Knife</option>
+          <option value="tech">Technology</option>
+          <option value="tech2">Technology 2</option>
+        </select>
+      </label>
+      <span class="synergy-symbol" aria-hidden="true">+</span>
+      <label>
+        <span>Second item</span>
+        <select id="combo2" name="combo2">
+          <option value="brimstone">Brimstone</option>
+          <option value="chocolate">Chocolate Milk</option>
+          <option value="cold">Common Cold</option>
+          <option value="fetus">Dr. Fetus</option>
+          <option value="epic">Epic Fetus</option>
+          <option value="triple">The Inner Eye</option>
+          <option value="ipecac">IPECAC</option>
+          <option value="contacts">Mom's Contacts</option>
+          <option value="knife">Mom's Knife</option>
+          <option value="quad">Mutant Spider</option>
+          <option value="one">Number One</option>
+          <option value="polyphemus">Polyphemus</option>
+          <option value="sacred">Sacred Heart</option>
+          <option value="spider">Spider Bite</option>
+          <option value="spoon">Spoon Bender</option>
+          <option value="tech">Technology</option>
+          <option value="tech2">Technology 2</option>
+          <option value="wiggle">Wiggle Worm</option>
+        </select>
+      </label>
+    </div>
+
+    <h3>Synergy Description</h3>
+    <div class="synergy-text">Choose two items above to see their in-game interaction.</div>
+
+    <div class="synergy-preview-row">
+      <div class="synergy-preview">
+        <h3>Synergy Preview</h3>
+        <div class="synergy-image">
+          <img alt="The synergy between the selected items" src="https://tboi.com/images/jifs/nah.png">
+        </div>
+      </div>
+      <div class="synergy-legend">
+        <div class="synergy-color green" aria-label="Good synergy"></div>
+        <p><strong>Green</strong> means the items have a good synergy.</p>
+        <div class="synergy-color red" aria-label="Bad synergy"></div>
+        <p><strong>Red</strong> means the synergy is harmful or undesirable.</p>
+        <div class="synergy-color orange" aria-label="Neutral synergy"></div>
+        <p><strong>Orange</strong> means the synergy is neutral or one item overrides the other.</p>
+      </div>
+    </div>
+  </div>
 </section>
 	</div>
 </header>
@@ -4302,6 +4356,32 @@ document.querySelectorAll(".main .textbox").forEach(function(item) {
       });
     });
   }
+})();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script>
+if (window.jQuery && !jQuery.fn.msDropDown) {
+  jQuery.fn.msDropDown = function() {
+    return this;
+  };
+}
+</script>
+<script src="https://tboi.com/old/js/synergy.js"></script>
+<script>
+(function() {
+  var preview = document.querySelector(".synergy-image img");
+  if (!preview) {
+    return;
+  }
+
+  function normalizePreview() {
+    if (preview.getAttribute("src").indexOf("http") !== 0) {
+      preview.src = "https://tboi.com/" + preview.getAttribute("src").replace(/^\/+/, "");
+    }
+  }
+
+  normalizePreview();
+  new MutationObserver(normalizePreview).observe(preview, { attributes: true, attributeFilter: ["src"] });
 })();
 </script>
 </body>
