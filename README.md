@@ -11,3 +11,5 @@ TODO:
 * Auto saving (Partly done)
 * Dmage Calculator
 * Fix Synergy Preview Sometimes not Loading
+
+All credits go to Edmund McMillan for creating the original The Binding of Isaac: Wrath of the Lamb
