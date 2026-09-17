@@ -10,7 +10,7 @@ Clearing cookies can cause the data to get lost, but you can always downlaod the
 TODO:
 * Auto saving (Partly done)
 * Dmage Calculator
-* Fix Synergy Preview Sometimes not Loading
+* Fix Synergy Preview Sometimes not Loading (specifically brimstone and dr. fetus)
 * Fix vanishing tooltip even after clicking (breaks item view)
 
 All credits go to Edmund McMillan for creating the original The Binding of Isaac: Wrath of the Lamb
