@@ -16,7 +16,7 @@ Have:
 TODO:
 * Auto saving (Partly done)
 * Damage Calculator
-* Quality Filter for Items
+* Get rid of qual 1, 2, 3, 4 filter and organize only
 
 All credits go to Edmund McMillan for creating the original The Binding of Isaac: Wrath of the Lamb
 Images and synergy preview damages all belong to the original authors of tboi.com
