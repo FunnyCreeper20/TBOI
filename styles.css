@@ -244,6 +244,11 @@ html {
   gap: 14px;
 }
 
+.synergy-selector-sprite.items-container {
+  display: block;
+  padding-bottom: 0;
+}
+
 .synergy-selectors select {
   min-height: 46px;
   flex: 1 1 auto;
@@ -286,11 +291,8 @@ html {
 
 .synergy-selector-item {
   display: block;
-  flex: 0 0 48px;
-  width: 48px;
-  height: 48px;
-  border: 1px solid rgba(242, 236, 222, 0.2);
-  background-color: #111;
+  flex: 0 0 auto;
+  height: 50px;
 }
 
 .synergy-symbol {
