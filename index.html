@@ -71,7 +71,9 @@
           <option value="tech">Technology</option>
           <option value="tech2">Technology 2</option>
           </select>
-          <span class="synergy-selector-item" aria-hidden="true"></span>
+          <span class="items-container synergy-selector-sprite">
+            <span class="synergy-selector-item" aria-hidden="true"></span>
+          </span>
         </span>
       </label>
       <span class="synergy-symbol" aria-hidden="true">+</span>
@@ -98,7 +100,9 @@
           <option value="tech2">Technology 2</option>
           <option value="wiggle">Wiggle Worm</option>
           </select>
-          <span class="synergy-selector-item" aria-hidden="true"></span>
+          <span class="items-container synergy-selector-sprite">
+            <span class="synergy-selector-item" aria-hidden="true"></span>
+          </span>
         </span>
       </label>
     </div>
@@ -3766,7 +3770,7 @@ document.querySelectorAll(".mode-option").forEach(function(option) {
       itemSearch.hidden = !showItems;
       itemSearch.style.display = showItems ? "flex" : "none";
     }
-    ['.items-container', '.trinkets-container', '.tarot-container'].forEach(function(selector) {
+    ['#items'].forEach(function(selector) {
       var section = document.querySelector(selector);
       if (section) {
         section.hidden = !showItems;
@@ -3833,7 +3837,7 @@ if (itemSearchInput) {
 if (itemSearchInput) {
   itemSearchInput.addEventListener('input', function() {
     var filter = this.value.toLowerCase();
-    var containers = ['.items-container', '.trinkets-container', '.tarot-container'];
+    var containers = ['#items'];
     containers.forEach(function(selector) {
       var container = document.querySelector(selector);
       if (!container) return;
@@ -3869,7 +3873,7 @@ if (searchSort) {
   
   searchSort.addEventListener('change', function() {
     var sortBy = this.value;
-    var containers = ['.items-container', '.trinkets-container', '.tarot-container'];
+    var containers = ['#items'];
     containers.forEach(function(selector) {
       var container = document.querySelector(selector);
       if (!container) return;
@@ -4456,21 +4460,22 @@ if (window.jQuery && !jQuery.fn.msDropDown) {
     if (selectors[0].value === selectors[1].value) {
       color.className = "synergy-color orange";
     }
-    syncDescriptionColor();
-    color.setAttribute("aria-label", color.classList.contains("green") ? "Good synergy" : color.classList.contains("red") ? "Bad synergy" : "Neutral synergy");
-    colorDescription.innerHTML = color.classList.contains("green")
+    syncColorState();
+  }
+
+  function syncColorState() {
+    var colorName = color.classList.contains("green") ? "green" : color.classList.contains("red") ? "red" : "orange";
+    synergyText.className = "synergy-text " + colorName;
+    color.setAttribute("aria-label", colorName === "green" ? "Good synergy" : colorName === "red" ? "Bad synergy" : "Neutral synergy");
+    colorDescription.innerHTML = colorName === "green"
       ? "<strong>Green</strong> means the items have a good synergy."
-      : color.classList.contains("red")
+      : colorName === "red"
         ? "<strong>Red</strong> means the synergy is harmful or undesirable."
         : "<strong>Orange</strong> means the synergy is neutral or one item overrides the other.";
   }
 
-  function syncDescriptionColor() {
-    synergyText.className = "synergy-text " + (color.classList.contains("green") ? "green" : color.classList.contains("red") ? "red" : "orange");
-  }
-
   document.querySelector(".synergy-main").addEventListener("change", renderSelectedItems);
-  new MutationObserver(syncDescriptionColor).observe(color, { attributes: true, attributeFilter: ["class"] });
+  new MutationObserver(syncColorState).observe(color, { attributes: true, attributeFilter: ["class"] });
   preview.addEventListener("error", usePreviewFallback);
   normalizePreview();
   new MutationObserver(normalizePreview).observe(preview, { attributes: true, attributeFilter: ["src"] });
