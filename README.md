@@ -10,5 +10,6 @@ Clearing cookies can cause the data to get lost, but you can always downlaod the
 TODO:
 * Auto saving (Partly done)
 * Damage Calculator
+* Quality Filter for Items
 
 All credits go to Edmund McMillan for creating the original The Binding of Isaac: Wrath of the Lamb
