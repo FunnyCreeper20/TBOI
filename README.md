@@ -17,6 +17,7 @@ TODO:
 * Auto saving (Partly done)
 * Damage Calculator
 * Get rid of qual 1, 2, 3, 4 filter and organize only
+* Get rid of trinkets and others on the synergy page
 
 All credits go to Edmund McMillan for creating the original The Binding of Isaac: Wrath of the Lamb
 Images and synergy preview damages all belong to the original authors of tboi.com
